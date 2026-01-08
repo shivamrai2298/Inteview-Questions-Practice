@@ -1,0 +1,214 @@
+"""
+All common Media.net Web Developer coding interview questions
+Solved in Python with explanations and optimal approaches.
+"""
+
+# -----------------------------------------------------------
+# 1. Two Sum
+# -----------------------------------------------------------
+def two_sum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        if target - num in seen:
+            return [seen[target - num], i]
+        seen[num] = i
+    return []
+
+# -----------------------------------------------------------
+# 2. Fibonacci (Recursive + Optimized)
+# -----------------------------------------------------------
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+def fibonacci_dp(n):
+    if n <= 1:
+        return n
+    a, b = 0, 1
+    for _ in range(2, n+1):
+        a, b = b, a + b
+    return b
+
+# -----------------------------------------------------------
+# 3. Next Permutation
+# -----------------------------------------------------------
+def next_permutation(nums):
+    i = len(nums) - 2
+    while i >= 0 and nums[i] >= nums[i+1]:
+        i -= 1
+    if i >= 0:
+        j = len(nums) - 1
+        while nums[j] <= nums[i]:
+            j -= 1
+        nums[i], nums[j] = nums[j], nums[i]
+    nums[i+1:] = reversed(nums[i+1:])
+    return nums
+
+# -----------------------------------------------------------
+# 4. First Duplicate Element
+# -----------------------------------------------------------
+def first_duplicate(arr):
+    seen = set()
+    for x in arr:
+        if x in seen:
+            return x
+        seen.add(x)
+    return -1
+
+# -----------------------------------------------------------
+# 5. Reverse a String
+# -----------------------------------------------------------
+def reverse_string(s):
+    return s[::-1]
+
+# -----------------------------------------------------------
+# 6. Reverse String Except Special Characters
+# -----------------------------------------------------------
+def reverse_except_special(s):
+    s = list(s)
+    i, j = 0, len(s) - 1
+    while i < j:
+        if not s[i].isalnum():
+            i += 1
+        elif not s[j].isalnum():
+            j -= 1
+        else:
+            s[i], s[j] = s[j], s[i]
+            i += 1
+            j -= 1
+    return "".join(s)
+
+# -----------------------------------------------------------
+# 7. Longest Palindromic Substring (DP)
+# -----------------------------------------------------------
+def longest_palindrome(s):
+    n = len(s)
+    dp = [[False]*n for _ in range(n)]
+    start, max_len = 0, 1
+
+    for i in range(n):
+        dp[i][i] = True
+
+    for length in range(2, n+1):
+        for i in range(n-length+1):
+            j = i + length - 1
+            if s[i] == s[j] and (length == 2 or dp[i+1][j-1]):
+                dp[i][j] = True
+                if length > max_len:
+                    start, max_len = i, length
+
+    return s[start:start+max_len]
+
+# -----------------------------------------------------------
+# 8. FizzBuzz
+# -----------------------------------------------------------
+def fizz_buzz(n):
+    result = []
+    for i in range(1, n+1):
+        if i % 15 == 0:
+            result.append("FizzBuzz")
+        elif i % 3 == 0:
+            result.append("Fizz")
+        elif i % 5 == 0:
+            result.append("Buzz")
+        else:
+            result.append(str(i))
+    return result
+
+# -----------------------------------------------------------
+# 9. Merge Two Sorted Linked Lists
+# -----------------------------------------------------------
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def merge_lists(l1, l2):
+    dummy = ListNode()
+    curr = dummy
+    while l1 and l2:
+        if l1.val < l2.val:
+            curr.next, l1 = l1, l1.next
+        else:
+            curr.next, l2 = l2, l2.next
+        curr = curr.next
+    curr.next = l1 or l2
+    return dummy.next
+
+# -----------------------------------------------------------
+# 10. Jump Game
+# -----------------------------------------------------------
+def can_jump(nums):
+    max_reach = 0
+    for i, num in enumerate(nums):
+        if i > max_reach:
+            return False
+        max_reach = max(max_reach, i + num)
+    return True
+
+# -----------------------------------------------------------
+# 11. Number of Paths in 2D Grid
+# -----------------------------------------------------------
+def count_paths(m, n):
+    dp = [[1]*n for _ in range(m)]
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[i][j] = dp[i-1][j] + dp[i][j-1]
+    return dp[m-1][n-1]
+
+# -----------------------------------------------------------
+# 12. Trapping Rain Water
+# -----------------------------------------------------------
+def trap_rainwater(height):
+    left, right = 0, len(height)-1
+    left_max = right_max = 0
+    water = 0
+    while left < right:
+        if height[left] < height[right]:
+            left_max = max(left_max, height[left])
+            water += left_max - height[left]
+            left += 1
+        else:
+            right_max = max(right_max, height[right])
+            water += right_max - height[right]
+            right -= 1
+    return water
+
+# -----------------------------------------------------------
+# 13. Spiral Matrix Traversal
+# -----------------------------------------------------------
+def spiral_matrix(matrix):
+    result = []
+    while matrix:
+        result += matrix.pop(0)
+        if matrix and matrix[0]:
+            for row in matrix:
+                result.append(row.pop())
+        if matrix:
+            result += matrix.pop()[::-1]
+        if matrix and matrix[0]:
+            for row in matrix[::-1]:
+                result.append(row.pop(0))
+    return result
+
+# -----------------------------------------------------------
+# 14. Kadane's Algorithm (Maximum Subarray Sum)
+# -----------------------------------------------------------
+def max_subarray(nums):
+    max_sum = curr_sum = nums[0]
+    for num in nums[1:]:
+        curr_sum = max(num, curr_sum + num)
+        max_sum = max(max_sum, curr_sum)
+    return max_sum
+
+# -----------------------------------------------------------
+# 15. Greedy Example (Coin Change)
+# -----------------------------------------------------------
+def coin_change(coins, amount):
+    coins.sort(reverse=True)
+    count = 0
+    for coin in coins:
+        count += amount // coin
+        amount %= coin
+    return count if amount == 0 else -1
