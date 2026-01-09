@@ -4,7 +4,7 @@ Solved in Python with explanations and optimal approaches.
 """
 
 # -----------------------------------------------------------
-# 1. Two Sum
+# 1. Two Sum problem
 # -----------------------------------------------------------
 def two_sum(nums, target):
     seen = {}
