@@ -214,7 +214,7 @@ def coin_change(coins, amount):
     return count if amount == 0 else -1
 
 # -----------------------------------------------------------
-# 15. Get second highest number from array (single pass)
+# 16. Get second highest number from array (single pass)
 # -----------------------------------------------------------
 
 def second_highest(arr):
@@ -231,3 +231,24 @@ def second_highest(arr):
             second = num
 
     return second if second != float('-inf') else None
+
+
+# -----------------------------------------------------------
+# 17. Get second last node in linked list (without knowing length)
+# -----------------------------------------------------------
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def second_last_node(head):
+    if head is None or head.next is None:
+        return None
+
+    curr = head
+    while curr.next.next:
+        curr = curr.next
+
+    return curr.data
+
