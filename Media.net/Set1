@@ -212,3 +212,22 @@ def coin_change(coins, amount):
         count += amount // coin
         amount %= coin
     return count if amount == 0 else -1
+
+# -----------------------------------------------------------
+# 15. Get second highest number from array (single pass)
+# -----------------------------------------------------------
+
+def second_highest(arr):
+    if len(arr) < 2:
+        return None
+
+    first = second = float('-inf')
+
+    for num in arr:
+        if num > first:
+            second = first
+            first = num
+        elif first > num > second:
+            second = num
+
+    return second if second != float('-inf') else None
