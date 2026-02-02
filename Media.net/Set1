@@ -252,3 +252,29 @@ def second_last_node(head):
 
     return curr.data
 
+
+
+
+
+# -----------------------------------------------------------
+# 18. Print all perfect cubes between L and R
+# -----------------------------------------------------------
+
+def perfect_cubes(L, R):
+    start = int(round(L ** (1/3)))
+    while (start - 1) ** 3 >= L:
+        start -= 1
+    while start ** 3 < L:
+        start += 1
+
+    end = int(R ** (1/3))
+
+    cubes = []
+    for i in range(start, end + 1):
+        cube = i ** 3
+        if L <= cube <= R:
+            cubes.append(cube)
+
+    return cubes
+
+
