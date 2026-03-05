@@ -1,4 +1,4 @@
-#important topics to cover which will help you clear media.net
+#important medianet topics to cover which will help you clear media.net
 
 
 ARRAYS / SLIDING WINDOW Question highest ROi
